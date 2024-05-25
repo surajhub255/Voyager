@@ -1,0 +1,82 @@
+name: "Build and Push to GHCR"
+
+on:
+  push:
+    branches: 
+      - main
+      - frontend
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and Push Backend Docker Image
+        if: github.ref == 'refs/heads/main' 
+        run: |
+          export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+          export TAG=$([[ $CURRENT_BRANCH == $(basename ${{ github.ref }}) ]] && echo $CURRENT_BRANCH || echo "latest")
+          export GITHUB_REF_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA
+          export GITHUB_BRANCH_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$TAG
+          docker build -t $GITHUB_REF_IMAGE -t $GITHUB_BRANCH_IMAGE .
+          echo "Pushing Image to GitHub Container Registry"
+          docker push $GITHUB_REF_IMAGE
+          docker push $GITHUB_BRANCH_IMAGE
+
+      - name: Build and Push for Frontend server
+        if: github.ref == 'refs/heads/frontend' 
+        env:
+          PROD_ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          echo "$ENV_FILE" > .env
+          export CURRENT_BRANCH=${GITHUB_REF#refs/heads/}
+          export TAG=$([[ $CURRENT_BRANCH == $(basename ${{ github.ref }}) ]] && echo $CURRENT_BRANCH || echo "latest")
+          echo $TAG
+          export GITHUB_REF_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA
+          export GITHUB_BRANCH_IMAGE=ghcr.io/$GITHUB_REPOSITORY:$TAG
+          # export GITHUB_REF_IMAGE=$(echo $GITHUB_REF_IMAGE | tr '[:upper:]' '[:lower:]')
+          # export GITHUB_BRANCH_IMAGE=$(echo $GITHUB_BRANCH_IMAGE | tr '[:upper:]' '[:lower:]')
+          docker build --build-arg version=$GITHUB_SHA -t $GITHUB_REF_IMAGE -t $GITHUB_BRANCH_IMAGE .
+          echo "Pushing Frontend Image to GitHub Container Registry"
+          docker push $GITHUB_REF_IMAGE
+          docker push $GITHUB_BRANCH_IMAGE
+          rm -rf .env
+
+      - name: Deploy on DEV server 
+        if: github.ref == 'refs/heads/main' 
+        uses: appleboy/ssh-action@v0.1.7
+        with:         
+          host: ${{ secrets.DEV_REMOTE_SERVER_ADDRESS }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key:  ${{ secrets.DEV_REMOTE_SERVER_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }} 
+          script: |
+            pwd
+            cd sui_backend
+            sudo docker stop sui_backend && sudo docker rm sui_backend && sudo docker image rm ghcr.io/p-shubh/sui_overflow_hack:main
+            echo ${{ secrets.GHCR_TOKEN }} | sudo docker login ghcr.io -u secrets.GHCR_USERNAME --password-stdin
+            sudo docker pull ghcr.io/p-shubh/sui_overflow_hack:main
+            sudo docker run --name="sui_backend" --env-file=.env -p 8181:6060 --net=bridge -d ghcr.io/p-shubh/sui_overflow_hack:main
+      - name: Deploy on Frontend server 
+        if: github.ref == 'refs/heads/frontend' 
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.DEV_REMOTE_SERVER_ADDRESS }}
+          username: ${{ secrets.DEV_SERVER_USERNAME }}
+          key: ${{ secrets.DEV_REMOTE_SERVER_KEY }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          script: |
+            pwd
+            sudo docker stop sui-frontend || true && sudo docker image rm ghcr.io/p-shubh/sui_overflow_hack:frontend
+            echo ${{ secrets.GHCR_TOKEN }} | sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+            sudo docker pull ghcr.io/p-shubh/sui_overflow_hack:frontend
+            sudo docker run --name="sui-frontend" --rm -p 4040:6060 --net=bridge -d ghcr.io/p-shubh/sui_overflow_hack:frontend

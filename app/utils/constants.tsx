@@ -1,240 +1,105 @@
 // This file includes all the constants or hard coded values
 
 // home page related constants
-export const LANDING_PAGE_BUTTON = [
-  {
-    text: "Music",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Gaming",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Art",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Digital",
-    bg_color: "[#0A72C7]",
-    hover_bg_color: "[#2a73ae]",
-    text_color: "white",
-  },
-  {
-    text: "Connection",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Fun",
-    bg_color: "[#0A72C7]",
-    hover_bg_color: "[#2a73ae]",
-    text_color: "white",
-  },
-  {
-    text: "Creativity",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Exploration",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Diversity",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Joy",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Entertainment",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Social",
-    bg_color: "[#0A72C7]",
-    hover_bg_color: "[#2a73ae]",
-    text_color: "white",
-  },
-  {
-    text: "Community",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Playground",
-    bg_color: "[#0A72C7]",
-    hover_bg_color: "[#2a73ae]",
-    text_color: "white",
-  },
-  {
-    text: "Expression",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Connection",
-    bg_color: "white",
-    hover_bg_color: "white",
-    text_color: "black",
-  },
-  {
-    text: "Convergence",
-    bg_color: "[#0A72C7]",
-    hover_bg_color: "[#2a73ae]",
-    text_color: "white",
-  },
-];
 
 export const LANDING_PAGE_VIBRANT_COMMUNITIES_IMAGES = [
   {
     src: "/people.jpg",
     community_interest: "Key Features",
-    interest_taglines: "Voyager offers a suite of innovative features that redefine the travel experience",
+    interest_taglines:
+      "Voyager offers a suite of innovative features that redefine the travel experience",
   },
   {
     src: "/community.jpg",
     community_interest: "Communities",
-    interest_taglines: "Explore a world of diverse communities, each fostering meaningful connections, shared experiences",
+    interest_taglines:
+      "Explore a world of diverse communities, each fostering meaningful connections, shared experiences",
   },
   {
     src: "/demo.jpg",
     community_interest: "Interactive Demo",
-    interest_taglines: "Voyager's immersive demo showcases our cutting-edge features, inviting you to experience the future of social-fi travel firsthand",
+    interest_taglines:
+      "Voyager's immersive demo showcases our cutting-edge features, inviting you to experience the future of social-fi travel firsthand",
+  },
+];
+
+// community page related constants
+export const CULT_PAGE_KEYFEATURES_IMAGE = [
+  {
+    src: "/c1.png",
+    community_interest: "Fundraising Raids",
+  },
+  {
+    src: "/c2.png",
+    community_interest: "NFT Gated Communities",
+  },
+  {
+    src: "/c3.png",
+    community_interest: "Opinions",
+  },
+  {
+    src: "/c4.png",
+    community_interest: "Decentralized Raffles",
   },
 ];
 
 export const CULT_PAGE_COMMUNITIES_IMAGE = [
   {
-    src: "/c1.png",
-    community_interest: "Interactive Demo",
+    src: "/a.jpg",
+    community_interest: "Society Spot",
   },
   {
-    src: "/c1.png",
-    community_interest: "Interactive Demo",
+    src: "/a.jpg",
+    community_interest: "Unity Hub",
   },
   {
-    src: "/c1.png",
-    community_interest: "Interactive Demo",
-  },
-  
-]
-
-export const HOME_PAGE_NAVBAR_LINKS = [
-  {
-    label: "Meet new",
-    link: "/",
-  },
-  {
-    label: "Earn rewards",
-    link: "/",
-  },
-
-  {
-    label: "Explore",
-    link: "/",
-  },
-
-  {
-    label: "Join the fun",
-    link: "/",
+    src: "/a.jpg",
+    community_interest: "Neighbour Connect",
   },
 ];
-
-// community page related constants
-export const COMMUNITY_NAVBAR_LINKS = [
-  {
-    label: "Random Chats",
-    link: "/",
-  },
-  {
-    label: "Earn",
-    link: "/",
-  },
-
-  {
-    label: "Explore",
-    link: "/",
-  },
-
-  {
-    label: "Join",
-    link: "/",
-  },
-];
-
-export const COMMUNITY_PAGE_BUTTONS = [
-  {
-    text: "All",
-  },
-  {
-    text: "Owned",
-  },
-  {
-    text: "Created",
-  },
-  {
-    text: "Communities",
-  },
-  {
-    text: "Join",
-  },
-  {
-    text: "Connect",
-  },
-];
-
-export const VIBRANT_COMMUNITY_CARD_IMAGES = {
-  card1: {
-    src1: "https://img.freepik.com/premium-photo/business-network-connections_175634-38642.jpg?w=740",
-    src2: "https://img.freepik.com/free-photo/3d-geometric-shapes-natural-background_23-2150697438.jpg?t=st=1716016369~exp=1716019969~hmac=1f0198c59fcd7eb9e6c23fe5c4deb7e4c8bfb33239673c339de4580532dae1d7&w=740",
-    src3: "https://img.freepik.com/free-photo/long-shot-adult-nature-with-3d-geometric-shapes_23-2150697330.jpg?t=st=1716016608~exp=1716020208~hmac=6354b83989962d5fc71fba84a140f8f44ca9ecb92ca555686fc76a6d05e0a13d&w=740",
-  },
-  card2: {
-    src1: "https://img.freepik.com/premium-photo/free-photo-world-photography-day_1134551-7610.jpg?w=740",
-    src2: "https://img.freepik.com/free-photo/isometric-view-3d-rendering-city_23-2150901092.jpg?t=st=1716017411~exp=1716021011~hmac=e6058083a22b613b9be91a51a6f5b86f37be56c91f1f0d41b7fd654f65f25d2f&w=360",
-    src3: "https://img.freepik.com/free-photo/futuristic-fantastical-light-lamp-design_23-2151101689.jpg?t=st=1716017615~exp=1716021215~hmac=399ff8c2caf9262828085ae3cad4d5269e80341966afdcbe8b6c160317c5a3ac&w=740",
-  },
-};
 
 // profile page related constants
-export const PROFILE_PAGE_IMAGES = [
+export const PROFILE_PAGE_MY_JOURNEY_CARDS = [
   {
-    src: "https://img.freepik.com/free-photo/high-angle-female-meeting-work_23-2148347226.jpg?t=st=1715435787~exp=1715439387~hmac=5bd9bb0c4b3eaf065110dd77e44338e07e9af446ff0911f0330e6ca05936c8d1&w=1480",
+    src: "https://img.freepik.com/free-photo/happy-people-together-looking-camera_23-2148270959.jpg?t=st=1716446440~exp=1716450040~hmac=4ad13814bda201084992b39821a4986a58732b09949f7368f64adfd4ed8800ea&w=826",
+    name: "Society Spot",
   },
   {
-    src: "https://img.freepik.com/free-photo/smiling-women-taking-selfie-smartphone-near-car-boot-man-leaning-out-from-auto_23-2148039107.jpg?t=st=1715435706~exp=1715439306~hmac=f0ddf27e4fbb15966216bbbd563860d44127f4e7f54354e231d7bfcf754670df&w=1480",
+    src: "https://img.freepik.com/free-photo/full-shot-family-running-meadow_23-2149049214.jpg?t=st=1716448673~exp=1716452273~hmac=b9a4198945cd59ccefc73d17c0cb4a179bac528d81696cebb702e15f94019703&w=826",
+    name: "Unity Hub",
   },
   {
-    src: "https://img.freepik.com/free-photo/friends-celebrating-2018-with-confetti_23-2147720449.jpg?t=st=1715435624~exp=1715439224~hmac=37372c9b01a120c9a54b9e8ea9c7b6b29489bfc66584012025e190f7d2a95ee1&w=1480",
+    src: "https://img.freepik.com/free-photo/spending-hot-day-seashore_1098-15284.jpg?t=st=1716448905~exp=1716452505~hmac=cb2f94bf3d3a479b06396317d1d8eabf123154c76bc8e96c1a89ef4c71f8d8bb&w=826",
+    name: "Neighbour",
+  },
+];
+
+export const PROFILE_PAGE_CULT_CARDS = [
+  {
+    src: "https://img.freepik.com/free-photo/woman-sitting-happily-with-laptop-table_1150-26786.jpg?t=st=1716446314~exp=1716449914~hmac=4ff2783c5955b2ba7fdf79bc27931396a37076132e868520fcb50b26e7bda790&w=826",
+    name: "StudySphere",
   },
   {
-    src: "https://img.freepik.com/free-photo/executive-manager-woman-explaining-management-statistics-working-company-strategy-overtime-office-meeting-room_482257-2393.jpg?t=st=1715435470~exp=1715439070~hmac=4fd3dbc4f6112e39f6e8746eeb5022513cdf0b27e3e84c7399f57ed16716c2b3&w=1800",
+    src: "https://img.freepik.com/free-photo/guy-shows-document-girl-group-young-freelancers-office-have-conversation-working_146671-13569.jpg?t=st=1716446587~exp=1716450187~hmac=8791bab0a6cd91701120e69032098b4cd84b6be5f12c13b1c0d0dd4afc6f89a3&w=826",
+    name: "BizNetwork",
   },
   {
-    src: "https://img.freepik.com/free-photo/empty-start-up-company-office-with-nobody-it-waiting-people-start-working-financial-documents-business-meeting-workplace-with-modern-furniture-management-graphs-computer_482257-30560.jpg?t=st=1715435415~exp=1715439015~hmac=9dc13926baf1559f0c39a9c5515ccb3b28ef58a7fb161dce85f09b295e83f6d0&w=1480",
+    src: "https://img.freepik.com/free-photo/nature-scene-yoga-mediation_23-2151046777.jpg?t=st=1716446632~exp=1716450232~hmac=5ad6ff60bcb6c6cdc3c4f9d55cc157a14687923f528bf2fb25dc156d39ebe30a&w=826",
+    name: "EcoCircle",
+  },
+];
+
+export const PROFILE_PAGE_POAPS_CARDS = [
+  {
+    src: "https://img.freepik.com/free-photo/excited-audience-watching-confetti-fireworks-having-fun-music-festival-night-copy-space_637285-559.jpg?t=st=1716495366~exp=1716498966~hmac=02909e7c563428b40fe52447998f99595581dc2c65d93053a1bbbd29f6652ce9&w=826",
+    name: "Club",
   },
   {
-    src: "https://img.freepik.com/free-photo/trans-person-working-office-with-colleagues_23-2149286991.jpg?t=st=1715435302~exp=1715438902~hmac=601e4fc2322bd7b7b4fbdb6bf124f492ad0c06678790a494eba76a9660fcbf61&w=1480",
+    src: "https://img.freepik.com/free-photo/eat-wedding-plate-lunch-healthy_1203-4049.jpg?t=st=1716495441~exp=1716499041~hmac=35448034e0c9321ffd81dbde338fde670881787d8a6ecc95d8d50db0b27be29c&w=826",
+    name: "Buffet",
+  },
+  {
+    src: "https://img.freepik.com/free-photo/amazing-bengal-tiger-nature_475641-1299.jpg?t=st=1716495561~exp=1716499161~hmac=2e077eae3c511f81f5c418880a2a744a01b7711b504948972d6458ca477dc9ff&w=826",
+    name: "Jungle Safari",
   },
 ];

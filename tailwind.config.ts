@@ -8,11 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
-        'playfair-display': ['"Playfair Display"', 'serif'],
-        'englebert': ['"Englebert"', 'sans-serif'],
-      },
       screens: {
         xs: "0px",
         sm: "480px",

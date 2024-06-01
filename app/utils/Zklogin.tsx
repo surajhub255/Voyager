@@ -65,6 +65,7 @@ interface Props {
   loginButtonRef: any;
   logoutButtonRef: any;
   setIsUserLoggedIn: Dispatch<SetStateAction<boolean>>;
+  setUserSubId: Dispatch<SetStateAction<string | undefined>>;
   setUserAddress: Dispatch<SetStateAction<string | undefined>>;
 }
 
@@ -72,6 +73,7 @@ export const Zklogin = ({
   loginButtonRef,
   logoutButtonRef,
   setIsUserLoggedIn,
+  setUserSubId,
   setUserAddress,
 }: Props) => {
   const accounts = useRef<AccountData[]>(loadAccounts()); // useRef() instead of useState() because of setInterval()
@@ -84,11 +86,16 @@ export const Zklogin = ({
     (async function () {
       await completeZkLogin();
       const userData = accounts.current[0];
+        if (typeof window !== undefined && userData !== undefined) {
+          localStorage.setItem("subId", userData.sub);
+        }  
       if (userData) {
+        setUserSubId(userData.sub);
         setUserAddress(userData.userAddr);
         let getUserData;
+        // send a get request to get data of user saved in db.
         getUserData = await fetch(
-          `http://${IP_ADDRESS}/v1.0/voyager/user/sub-id/${userData.sub}`,
+          `https://${IP_ADDRESS}/v1.0/voyager/user/sub-id/${userData.sub}`,
           {
             method: "GET",
             headers: {
@@ -111,15 +118,24 @@ export const Zklogin = ({
             return undefined;
           });
 
+        // if there is some value in userData then set the userId in local storage
+        if (typeof window !== "undefined" && getUserData !== undefined) {
+          localStorage.setItem("userId", getUserData.id);
+        }
+        // if getUserData is undefined means there is no value then post the data of new user
         if (getUserData === undefined) {
           const newUserData = {
             id: uuidv4(),
             user_address: userData.userAddr,
             sub_id: userData.sub,
             name: "",
-            provider: userData,
+            provider: userData.provider,
           };
-          fetch(`http://${IP_ADDRESS}/v1.0/voyager/user`, {
+          // add the userId to local storage
+          if (typeof window !== "undefined") {
+            localStorage.setItem("userId", newUserData.id);
+          }
+          fetch(`https://${IP_ADDRESS}/v1.0/voyager/user`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -130,6 +146,7 @@ export const Zklogin = ({
             .then((data) => console.log(data))
             .catch((error) => console.error("Error:", error));
         }
+        await sendTransaction(userData);
       }
     })();
     fetchBalances(accounts.current);
@@ -139,7 +156,6 @@ export const Zklogin = ({
     };
     // eslint-disable-next-line
   }, []);
-
   /* zkLogin end-to-end */
 
   /**
@@ -185,25 +201,6 @@ export const Zklogin = ({
         loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${urlParams.toString()}`;
         break;
       }
-      //   case "Twitch": {
-      //     const urlParams = new URLSearchParams({
-      //       ...urlParamsBase,
-      //       client_id: config.CLIENT_ID_TWITCH,
-      //       force_verify: "true",
-      //       lang: "en",
-      //       login_type: "login",
-      //     });
-      //     loginUrl = `https://id.twitch.tv/oauth2/authorize?${urlParams.toString()}`;
-      //     break;
-      //   }
-      //   case "Facebook": {
-      //     const urlParams = new URLSearchParams({
-      //       ...urlParamsBase,
-      //       client_id: config.CLIENT_ID_FACEBOOK,
-      //     });
-      //     loginUrl = `https://www.facebook.com/v19.0/dialog/oauth?${urlParams.toString()}`;
-      //     break;
-      //   }
     }
     window.location.replace(loginUrl);
   }
@@ -358,16 +355,34 @@ export const Zklogin = ({
    * https://docs.sui.io/concepts/cryptography/zklogin#assemble-the-zklogin-signature-and-submit-the-transaction
    */
   async function sendTransaction(account: AccountData) {
-    setModalContent("🚀 Sending transaction...");
-
     // Sign the transaction bytes with the ephemeral private key
+    console.log("aaaaaaa")
+    let userId;
+    if(typeof window !== undefined){
+      userId = localStorage.getItem("userId");
+    }
     const txb = new TransactionBlock();
+    const packageObjectId =
+      "0x234604afac20711ef396f60601eeb8c0a97b7d9f0c4d33c5d02dafe6728d41be";
+    txb.moveCall({
+      target: `${packageObjectId}::voyagerprofile::mint`,
+      arguments: [
+        txb.pure(userId), // user id
+        txb.pure("voyager platform NFT"), // Description argument
+        txb.pure("url"), //url
+      ],
+    });
     txb.setSender(account.userAddr);
+    console.log("[mint] Account address:", account.userAddr);
 
     const ephemeralKeyPair = keypairFromSecretKey(account.ephemeralPrivateKey);
     const { bytes, signature: userSignature } = await txb.sign({
       client: suiClient,
       signer: ephemeralKeyPair,
+    });
+    console.log("[sendTransaction] Transaction signed:", {
+      bytes,
+      userSignature,
     });
 
     // Generate an address seed by combining userSalt, sub (subject ID), and aud (audience)
@@ -413,7 +428,7 @@ export const Zklogin = ({
         return null;
       })
       .finally(() => {
-        setModalContent("");
+        //  you can set here modal content
       });
   }
   /**
